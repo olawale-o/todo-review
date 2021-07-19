@@ -8,9 +8,9 @@ let current = null;
 export function dragStart() {
   current = this;
   for (let b = 0; b < items.length; b += 1) {
-    const it = items[b];
-    if (it === current) {
-      it.classList.add('border');
+    const item = items[b];
+    if (item === current) {
+      item.classList.add('border');
     }
   }
 }
@@ -32,27 +32,27 @@ export function dragLeave(event) {
 
 export function dragEnd() {
   for (let a = 0; a < items.length; a += 1) {
-    const it = items[a];
-    it.classList.remove('border');
+    const item = items[a];
+    item.classList.remove('border');
     this.style.visibility = 'visible';
-    it.style.opacity = 1;
+    item.style.opacity = 1;
   }
 }
 
 export function drop(event) {
   event.preventDefault();
   if (this !== current) {
-    let currentpos = 0;
-    let droppedpos = 0;
-    for (let it = 0; it < items.length; it += 1) {
-      if (current === items[it]) {
-        currentpos = it;
+    let currentPosiiton = 0;
+    let droppedPosition = 0;
+    for (let i = 0; i < items.length; i += 1) {
+      if (current === items[i]) {
+        currentPosiiton = i;
       }
-      if (this === items[it]) {
-        droppedpos = it;
+      if (this === items[i]) {
+        droppedpos = i;
       }
     }
-    if (currentpos < droppedpos) {
+    if (currentPosiiton < droppedPosition) {
       this.parentNode.insertBefore(current, this.nextSibling);
     } else {
       this.parentNode.insertBefore(current, this);
