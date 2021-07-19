@@ -49,7 +49,7 @@ export function drop(event) {
         currentPosiiton = i;
       }
       if (this === items[i]) {
-        droppedpos = i;
+        droppedPosition = i;
       }
     }
     if (currentPosiiton < droppedPosition) {
