@@ -40,26 +40,31 @@ const dragAll = () => {
   }
 };
 
+const createComponent = ({ element, className, id }) => {
+  const tag = document.createElement(element);
+  tag.setAttribute('id', id || element);
+  tag.setAttribute('class', className);
+
+  return tag;
+};
+
 const createTodo = (todo) => {
-  const li = document.createElement('li');
-  li.setAttribute('class', 'todo-list');
-  li.setAttribute('id', `id-${todo.index}`);
-  const div = document.createElement('div');
-  div.setAttribute('class', 'field todo-list__task');
-
-  const label = document.createElement('label');
-  label.setAttribute('class', 'label');
-  label.setAttribute('id', `label-${todo.index}`);
-  const checkbox = document.createElement('input');
-
-  const span = document.createElement('span');
-  span.setAttribute('class', 'todo-list__text');
-  span.setAttribute('id', `span-${todo.index}`);
-  span.textContent = todo.description;
-  span.style.textDecoration = todo.completed === true ? 'line-through' : 'none';
+  const li = createComponent({ element: 'li', className: 'todo-list', id: `id-${todo.index}` });
+  const div = createComponent({ element: 'div', className: 'field todo-list__task' });
+  const label = createComponent({ element: 'label', className: 'label', id: `label-${todo.index}` });
+  const checkbox = createComponent({ element: 'input', className: 'checkbox' });
   checkbox.setAttribute('type', 'checkbox');
   checkbox.setAttribute('name', 'todo-task');
   checkbox.checked = todo.completed === true;
+  const span = createComponent({ element: 'span', className: 'todo-list__text', id: `span-${todo.index}` });
+  span.textContent = todo.description;
+  span.style.textDecoration = todo.completed === true ? 'line-through' : 'none';
+  label.appendChild(checkbox);
+  const sp = createComponent({ element: 'span', className: 'checkmark' });
+  label.appendChild(sp);
+  const bin = createComponent({ element: 'i', className: 'bx bx-trash-alt bin hide', id: `bin-${todo.index}` });
+  const icon = createComponent({ element: 'i', className: 'bx bx-dots-vertical-rounded move', id: `icon-${todo.index}` });
+  icon.onmousedown = dragAll;
   checkbox.onchange = () => {
     change(todo, todos);
     if (todo.completed) {
@@ -68,19 +73,6 @@ const createTodo = (todo) => {
       span.style.textDecoration = 'none';
     }
   };
-  label.appendChild(checkbox);
-  const sp = document.createElement('span');
-  sp.setAttribute('class', 'checkmark');
-  label.appendChild(sp);
-
-  const bin = document.createElement('i');
-  bin.setAttribute('class', 'bx bx-trash-alt bin hide');
-  bin.setAttribute('id', `bin-${todo.index}`);
-
-  const icon = document.createElement('i');
-  icon.setAttribute('class', 'bx bx-dots-vertical-rounded move');
-  icon.setAttribute('id', `icon-${todo.index}`);
-  icon.onmousedown = dragAll;
 
   div.appendChild(label);
   div.appendChild(span);
